@@ -1,13 +1,13 @@
-x86_64_asm_src := $(shell find src/x86_64 -name *.asm)
-x86_64_asm_obj := $(patsubst src/x86_64/%.asm, build/x86_64/%.o, $(x86_64_asm_src))
+x86_64_asm_src := $(shell find src -name *.asm)
+x86_64_asm_obj := $(patsubst src/%.asm, build/%.o, $(x86_64_asm_src))
 
-$(x86_64_asm_obj): build/x86_64/%.o : src/x86_64/%.asm
+$(x86_64_asm_obj): build/%.o : src/%.asm
 	mkdir -p $(dir $@) && \
-	nasm -f elf64 $(patsubst build/x86_64/%.o, src/x86_64/%.asm, $@) -o $@
+	nasm -f elf64 $(patsubst build/%.o, src/%.asm, $@) -o $@
 
-.PHONY: build-x86_64
+.PHONY: build
 build-x86_64: $(x86_64_asm_obj)
-	mkdir -p dist/x86_64 && .
-	x86_64-elf-ld -n -o dist/x86_64/kernel.bin -T targets/x86_64/linker.ld $(x86_64_asm_obj) && \
-	cp dist/x86_64/kernel.bin targets/x86_64/iso/boot/kernel.bin && \
-	grub-mkrescue /usr/lib/grub/i386-pc -o dist/x86_64/kernel.iso targets/x86_64/iso/
+	mkdir -p dist && .
+	x86_64-elf-ld -n -o dist/kernel.bin -T targets/linker.ld $(x86_64_asm_obj) && \
+	cp dist/kernel.bin targets/iso/boot/kernel.bin && \
+	grub-mkrescue /usr/lib/grub/i386-pc -o dist/kernel.iso targets/iso/
