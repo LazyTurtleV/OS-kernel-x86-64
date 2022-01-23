@@ -6,7 +6,7 @@ $(x86_64_asm_obj): build/%.o : src/%.asm
 	nasm -f elf64 $(patsubst build/%.o, src/%.asm, $@) -o $@
 
 .PHONY: build
-build-x86_64: $(x86_64_asm_obj)
+build: $(x86_64_asm_obj)
 	mkdir -p dist && .
 	x86_64-elf-ld -n -o dist/kernel.bin -T targets/linker.ld $(x86_64_asm_obj) && \
 	cp dist/kernel.bin targets/iso/boot/kernel.bin && \
