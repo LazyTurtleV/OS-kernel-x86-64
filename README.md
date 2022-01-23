@@ -6,4 +6,4 @@ In order to build iso image of OS execute the following commands:
 
 ### Execution
 A built image can be run with qemu using command:
-qemu-system-x86_64 -cdrom dist/x86_64/kernel.iso
+qemu-system-x86_64 -cdrom dist/kernel.iso
