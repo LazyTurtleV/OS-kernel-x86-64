@@ -1,5 +1,7 @@
 global start
 
+extern lm_start
+
 section .text
 bits 32
 start:
@@ -12,8 +14,8 @@ start:
     call setup_page_tables
     call enable_paging
 
-    mov dword [0xb8000], 0x2f4b2f4f
-    hlt
+    lgdt [gdt64.ptr]
+    jmp gdt64.cs_offset:lm_start
 
 section .bss
 align 4096
@@ -30,6 +32,15 @@ page_table_l2:
 stack_bottom:
     resb 4096 * 4
 stack_top:
+
+section .rodata
+gdt64:
+    dq 0
+.cs_offset: equ $ - gdt64
+    dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53)
+.ptr:
+    dw $ - gdt64 - 1
+    dq gdt64
 
 ;subroutines aimed at setting up and working with paging
 setup_page_tables:
