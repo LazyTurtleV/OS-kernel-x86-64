@@ -23,7 +23,7 @@ $(x86_64_asm_obj): build/%.o : src/%.asm
 
 .PHONY: build
 build: $(obj_files) $(kernel_obj)
-	mkdir -p dist && .
+	mkdir -p dist && \
 	x86_64-elf-ld -n -o dist/kernel.bin -T targets/linker.ld $(kernel_obj) $(obj_files) && \
 	cp dist/kernel.bin targets/iso/boot/kernel.bin && \
 	grub-mkrescue /usr/lib/grub/i386-pc -o dist/kernel.iso targets/iso/
