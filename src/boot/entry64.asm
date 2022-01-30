@@ -1,5 +1,7 @@
 global lm_start
 
+extern kernel_main
+
 section .text
 bits 64
 lm_start:
@@ -11,6 +13,6 @@ lm_start:
     mov fs, ax
     mov gs, ax
 
-    mov dword [0xb8000], 0x2f4b2f4f
+    call kernel_main
     
     hlt
