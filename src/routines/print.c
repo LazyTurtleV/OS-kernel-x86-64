@@ -9,6 +9,7 @@ typedef struct video_char {
 } video_char;
 
 video_char* _buff = (video_char*) 0xb8000;
+uint8_t _default_color = WHITE | BLACK << 4;
 size_t _column = 0;
 size_t _row = 0;
 
@@ -73,6 +74,7 @@ void _print_char(char _c)
 
     _buff[_column + NUM_COLUMNS * _row] = (video_char){
         c: (uint8_t)_c,
+        color: _default_color
     };
 
     _column++;
