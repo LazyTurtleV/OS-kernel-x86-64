@@ -1,20 +1,20 @@
-#include "./headers/print.h"
+#include "../interface/print.h"
 
 const static size_t NUM_COLUMNS = 80;
 const static size_t NUM_ROWS = 25;
 
 typedef struct video_char {
-    uint8_t c,
-    uint8_t color
+    uint8_t c;
+    uint8_t color;
 } video_char;
 
 video_char* _buff = (video_char*) 0xb8000;
 size_t _column = 0;
 size_t _row = 0;
 
-void _print_char();
+void _clear_row(size_t _i);
+void _print_char(char _c);
 void _print_newline();
-void _clear_row();
 
 void print_clear()
 {   
@@ -42,9 +42,9 @@ void _print_newline()
 {
     _column = 0;
 
-    if (row < NUM_ROWS - 1)
+    if (_row < NUM_ROWS - 1)
     {
-        row++;
+        _row++;
         return;
     }
 
@@ -73,7 +73,7 @@ void _print_char(char _c)
 
     _buff[_column + NUM_COLUMNS * _row] = (video_char){
         c: (uint8_t)_c,
-    }
+    };
 
     _column++;
 }
