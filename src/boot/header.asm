@@ -1,10 +1,16 @@
 section .multiboot_header
+
+MULTI_BOOT EQU 0xE85250d6
+PROTECTED_MODE EQU 0
+HEADER_LENGTH EQU header_end - header_start
+
 header_start:
-    dd 0xE85250d6 ;multiboot
-    dd 0 ;protected mode i386
+    dd MULTI_BOOT
+    dd PROTECTED_MODE
     
-    dd header_end - header_start ;header length
-    dd 0x100000000 - (0xE85250d6 + 0 + (header_end - header_start))
+    dd HEADER_LENGTH
+    ;checksum
+    dd 0x100000000 - (MULTI_BOOT + 0 + (HEADER_LENGTH))
     
     ;end tag
     dw 0
