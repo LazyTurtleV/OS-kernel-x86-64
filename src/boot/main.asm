@@ -1,21 +1,17 @@
 global start
 
-extern lm_start
+extern main
 
 section .text
 bits 32
 start:
     mov esp, stack_top
-
-    call check_multiboot
-    call check_cpuid
-    call check_long_mode
-
-    call setup_page_tables
-    call enable_paging
-
-    lgdt [gdt64.ptr]
-    jmp gdt64.cs_offset:lm_start
+    
+    push ebx
+    cli
+    call main
+    
+    hlt
 
 section .bss
 align 4096
