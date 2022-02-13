@@ -1,5 +1,7 @@
 global gdt_flush
 
+bits 32
+
 CODE_SEG_OFFSET EQU 0x10
 gdt_flush:
     mov eax, [esp + 4]
